@@ -17,7 +17,7 @@ if __name__ == '__main__':
     print('\nLoaded mesh file %s' % args.file)
     print('#vertices:', np.asarray(mesh.vertices).shape[0])
     print('#faces:', np.asarray(mesh.triangles).shape[0])
-    print('Is manifold:', mesh.is_edge_manifold())
+    print('Is edge manifold:', mesh.is_edge_manifold())
     print('Is self-intersecting:', mesh.is_self_intersecting())
     print('Is watertight:', mesh.is_watertight())
 
@@ -35,13 +35,12 @@ if __name__ == '__main__':
         print('\nVisualizing...')
 
         # Compute normals of the input mesh
-        if not mesh.has_vertex_normals():
-            mesh.compute_vertex_normals()
+        mesh.compute_vertex_normals()
 
         # Get the mesh of the convex hull
         mesh_convhull = convhull.to_o3d_mesh()
         # Get the wireframe of the convex hull mesh
-        wireframe = o3d.geometry.LineSet.create_from_triangle_mesh(mesh_convhull)
+        convhull_wireframe = o3d.geometry.LineSet.create_from_triangle_mesh(mesh_convhull)
 
         # Draw input mesh and the convex hull mesh
-        o3d.visualization.draw_geometries([mesh, wireframe])
+        o3d.visualization.draw_geometries([mesh, convhull_wireframe])

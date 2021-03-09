@@ -12,7 +12,6 @@ if __name__ == '__main__':
     print('Input file:', input_filename)
     print('Output file:', output_filename)
 
-
     mesh = o3d.io.read_triangle_mesh(input_filename)
 
     voxel_size = max(mesh.get_max_bound() - mesh.get_min_bound()) / args.fineness
