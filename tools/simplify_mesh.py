@@ -8,7 +8,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     input_filename = args.file
-    output_filename = input_filename.split('.')[-2] + ('_sim%s.' % args.fineness) + input_filename.split('.')[-1]
+    output_filename = '.'.join(input_filename.split('.')[:-1]) + ('_sim%s.' % args.fineness) + input_filename.split('.')[-1]
     print('Input file:', input_filename)
     print('Output file:', output_filename)
 
