@@ -23,3 +23,4 @@ optional arguments:
 ## References
 
 - [3D Convex Hulls](http://www.bowdoin.edu/~ltoma/teaching/cs3250-CompGeom/spring17/Lectures/cg-hull3d.pdf)
+- Dirk Gregorius. The Separating Axis Test between Convex Polyhedra. GDC 2013.
