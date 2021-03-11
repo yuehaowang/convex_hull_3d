@@ -112,7 +112,7 @@ class SAT3D():
         dba = np.reshape(gauss_d @ bxa.T, (-1,))
         adc = np.reshape(gauss_a @ dxc.T, (-1,))
         bdc = np.reshape(gauss_b @ dxc.T, (-1,))
-        is_minkowski_face = (cba * dba < 0) & (adc * bdc < 0) & (cba * bdc < 0)
+        is_minkowski_face = (cba * dba < 0) & (adc * bdc < 0) & (cba * bdc > 0)
         # Edge pruning according to Gauss map
         edge_edge_axes = edge_edge_axes[is_minkowski_face]
 
