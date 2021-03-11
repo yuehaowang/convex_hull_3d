@@ -12,9 +12,6 @@ import time
 from collision_detection import RigidBody, SAT3D
 
 
-isMacOS = (platform.system() == "Darwin")
-
-
 class MyAppWindow():
     MOVE_SPEED = 0.1
 
