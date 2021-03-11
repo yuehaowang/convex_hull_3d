@@ -11,23 +11,13 @@ class RigidBody():
         self.convhull = conv_mesh
         self.convhull.compute_triangle_normals()
         self.convhull.remove_duplicated_vertices()
-        # Create a wireframe for displaying convex hull
-        self.convhull_wf = o3d.geometry.LineSet.create_from_triangle_mesh(self.convhull)
-        self.paintConvexHull([0, 0, 1.0])
+        self.convhull.remove_duplicated_triangles()
 
         # Faces, vertices, normals of the convex hull
         self.faces = np.asarray(self.convhull.triangles)
         self.vertices = np.asarray(self.convhull.vertices)
         self.face_normals = np.asarray(self.convhull.triangle_normals)
-        self.edges = np.asarray(self.convhull_wf.lines)
         self.edges, self.edges_gauss_map = self._build_edges()
-
-    def addTo(self, vis):
-        vis.add_geometry(self.mesh)
-        vis.add_geometry(self.convhull_wf)
-
-    def paintConvexHull(self, color):
-        self.convhull_wf.paint_uniform_color(np.array(color).astype(np.float64))
 
     def get_max_bound(self):
         return self.convhull.get_max_bound()
@@ -38,7 +28,6 @@ class RigidBody():
     def translate(self, t):
         self.mesh.translate(t)
         self.convhull.translate(t)
-        self.convhull_wf.translate(t)
 
     def _build_edges(self):
         # Search for all edges and record their adjacent faces' normals
@@ -130,7 +119,7 @@ class SAT3D():
         chunks.append(size)
         return chunks
 
-    def hitTest(self):
+    def hit_test(self):
         for i in range(len(self.chunks[:-1])):
             axes_chunk = self.axes[self.chunks[i]:self.chunks[i + 1], :]
             A_projs = axes_chunk @ self.bodyA.vertices.T

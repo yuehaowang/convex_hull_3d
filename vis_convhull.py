@@ -17,7 +17,7 @@ if __name__ == '__main__':
     convhull_wireframe.paint_uniform_color(np.array([0, 0, 1.0]))
 
     visualizer = o3d.visualization.Visualizer()
-    visualizer.create_window()
+    visualizer.create_window(window_name='Convex Hull Visualizer')
     visualizer.add_geometry(mesh)
     visualizer.add_geometry(convhull_wireframe)
     visualizer.run()
