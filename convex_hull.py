@@ -3,6 +3,8 @@ import numpy as np
 from tqdm import tqdm
 import open3d as o3d
 from utils import endpoint_key, Edge, Face
+import vis_convhull
+import time
 
 
 def _signed_vol(a, b, c, p):
@@ -162,40 +164,58 @@ class ConvexHull3D():
 if __name__ == '__main__':
     # Arguments
     parser = argparse.ArgumentParser(description='Compute the convex hull of a 3D object.')
-    parser.add_argument('--file', type=str, required=True, help='The target model file.')
-    parser.add_argument('--vis', action='store_true', help='Whether visualize the result?')
-    parser.add_argument('--save_path', type=str, default='', help='The saving path of the result.')
+    parser.add_argument('--file', type=str, help='The target model file.')
+    parser.add_argument('--save_path', type=str, default='', help='The saving path of the result. (not supported in perf-test mode)')
+    parser.add_argument('--perf_test', action='store_true', help='Enable perf-test mode')
+    parser.add_argument('--num_pts', type=int, default=1000, help='The number of generated points (perf-test mode only).')
+    parser.add_argument('--num_trials', type=int, default=10, help='The number of trials (perf-test mode only).')
+    parser.add_argument('--vis', action='store_true', help='Whether visualize the result? (only visualize the last trial in perf-test mode)')
     args = parser.parse_args()
 
-    # Load the mesh
-    mesh = o3d.io.read_triangle_mesh(args.file)
-    print('\nLoaded mesh file %s' % args.file)
-    print('#vertices:', np.asarray(mesh.vertices).shape[0])
-    print('#faces:', np.asarray(mesh.triangles).shape[0])
-    print('Is edge manifold:', mesh.is_edge_manifold())
-    print('Is self-intersecting:', mesh.is_self_intersecting())
-    print('Is watertight:', mesh.is_watertight())
+    target_obj = None
 
-    # Compute the 3D convex hull
-    print('\nComputing convex hull...')
-    convhull = ConvexHull3D(np.asarray(mesh.vertices), show_progress=True)
-
-    # Save the result
-    if args.save_path:
-        print('\nSaving result...')
-        convhull.save(args.save_path)
-
-    # Visualize the mesh
-    if args.vis:
-        print('\nVisualizing...')
-
+    if args.file:
+        # Load the mesh
+        mesh = o3d.io.read_triangle_mesh(args.file)
         # Compute normals of the input mesh
         mesh.compute_vertex_normals()
 
+        print('\nLoaded mesh file %s' % args.file)
+        print('#vertices:', np.asarray(mesh.vertices).shape[0])
+        print('#faces:', np.asarray(mesh.triangles).shape[0])
+        print('Is edge manifold:', mesh.is_edge_manifold())
+        print('Is self-intersecting:', mesh.is_self_intersecting())
+        print('Is watertight:', mesh.is_watertight())
+
+        # Compute the 3D convex hull
+        print('\nComputing convex hull...')
+        convhull = ConvexHull3D(np.asarray(mesh.vertices), show_progress=True)
+    
+        # Save the result
+        if args.save_path:
+            print('\nSaving result...')
+            convhull.save(args.save_path)
+
+        target_obj = mesh
+
+    elif args.perf_test:
+        time_ls = []
+        for i in range(args.num_trials):
+            pc = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(np.random.randn(args.num_pts, 3)))
+
+            t0 = time.time()
+            convhull = ConvexHull3D(np.asarray(pc.points), show_progress=False)
+            time_ls.append(time.time() - t0)
+
+            print('Time consumed: %ss' % time_ls[-1])
+
+        print('Avg time consumed: %ss' % (sum(time_ls) / 10))
+
+        target_obj = pc
+
+    # Visualize the mesh
+    if args.vis and target_obj:
+        print('\nVisualizing...')
         # Get the mesh of the convex hull
         mesh_convhull = convhull.to_o3d_mesh()
-        # Get the wireframe of the convex hull mesh
-        convhull_wireframe = o3d.geometry.LineSet.create_from_triangle_mesh(mesh_convhull)
-
-        # Draw input mesh and the convex hull mesh
-        o3d.visualization.draw_geometries([mesh, convhull_wireframe])
+        vis_convhull.vis(target_obj, mesh_convhull)
