@@ -2,15 +2,16 @@
 
 My implementation of Incremental Convex Hull algorithm and Separating Axis Theomrem for 3D objects.
 
+
 ## Dependencies
 
 - Python 3.7
-- Open3D
+- Open3D (0.12 recommended)
 - NumPy
 - tqdm
 
-## Usage
 
+## Usage
 
 ### Compute Convex Hull
 
@@ -90,10 +91,7 @@ My implementation of Incremental Convex Hull algorithm and Separating Axis Theom
 
 ## Demo
 
-<img src="README.assets/convhull1.png" width="32.5%">
-<img src="README.assets/convhull2.png" width="32.5%">
-<img src="README.assets/convhull3.png" width="32.5%">
-
+![Convex Hulls](README.assets/convhull1.png)
 ![SAT Collision Detection](README.assets/sat1.png)
 ![SAT Visualizer](README.assets/sat_prog.png)
 
