@@ -85,14 +85,15 @@ My implementation of Incremental Convex Hull algorithm and Separating Axis Theom
     --file FILE  The target model file.
   ```
 
-- Note: this tool is useful for visualizing SAT collision detection when one model is far more enormous than another model. The output file will be placed in the same directory of the input, and has the same filename but with '_n' suffix, e.g., the output file for 'out/bunny.ply' is 'out/bunny_n.ply'.
+- Note: this tool is useful for visualizing SAT collision detection when one model is far more enormous than another model. The output file will be placed in the same directory of the input file, and has the same filename but with '_n' suffix, e.g., the output file for 'out/bunny.ply' is 'out/bunny_n.ply'.
 
 
 ## Demo
 
-![Armadillo Convex Hull](README.assets/convhull1.png)
-![Stanford Bunny Convex Hull](README.assets/convhull2.png)
-![Stanford Dragon Convex Hull](README.assets/convhull3.png)
+<img src="README.assets/convhull1.png" width="32.5%">
+<img src="README.assets/convhull2.png" width="32.5%">
+<img src="README.assets/convhull3.png" width="32.5%">
+
 ![SAT Collision Detection](README.assets/sat1.png)
 ![SAT Visualizer](README.assets/sat_prog.png)
 
