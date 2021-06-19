@@ -4,7 +4,7 @@ import numpy as np
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Normalize mesh vertices to [-1, 1].')
+    parser = argparse.ArgumentParser(description='Normalize the input mesh\'s bounding box to [-1, 1] x [-1, 1] x [-1, 1].')
     parser.add_argument('--file', type=str, required=True, help='The target model file.')
     args = parser.parse_args()
 

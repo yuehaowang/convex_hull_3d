@@ -70,6 +70,33 @@ My implementation of Incremental Convex Hull algorithm and Separating Axis Theom
   python vis_collision.py -m1 data/stanford_dragon_sim32_n.obj -ch1 out/stanford_dragon_convhull_n.obj -m2 data/bunny_sim32_n.ply -ch2 out/bunny_convhull_n.obj
   ```
 
+### Mesh Normalization
+
+- Script: tools/normalize_mesh.py
+
+- Usage:
+  ```
+  usage: normalize_mesh.py [-h] --file FILE
+
+  Normalize the input mesh's bounding box to [-1, 1] x [-1, 1] x [-1, 1].
+
+  optional arguments:
+    -h, --help   show this help message and exit
+    --file FILE  The target model file.
+  ```
+
+- Note: this tool is useful for visualizing SAT collision detection when one model is far more enormous than another model. The output file will be placed in the same directory of the input, and has the same filename but with '_n' suffix, e.g., the output file for 'out/bunny.ply' is 'out/bunny_n.ply'.
+
+
+## Demo
+
+![Armadillo Convex Hull](README.assets/convhull1.png)
+![Stanford Bunny Convex Hull](README.assets/convhull2.png)
+![Stanford Dragon Convex Hull](README.assets/convhull3.png)
+![SAT Collision Detection](README.assets/sat1.png)
+![SAT Visualizer](README.assets/sat_prog.png)
+
+
 ## References
 
 - [3D Convex Hulls](http://www.bowdoin.edu/~ltoma/teaching/cs3250-CompGeom/spring17/Lectures/cg-hull3d.pdf)
