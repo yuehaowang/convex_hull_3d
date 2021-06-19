@@ -2,5 +2,4 @@ __pycache__
 .DS_Store
 *.pyc
 *.tar.gz
-*.png
-report/
+.vscode
